@@ -3,7 +3,9 @@
 package lesson2.task1
 
 import lesson1.task1.discriminant
+import lesson1.task1.sqr
 import kotlin.math.max
+import kotlin.math.min
 import kotlin.math.sqrt
 
 // Урок 2: ветвления (здесь), логический тип (см. 2.2).
@@ -68,7 +70,11 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
  * Мой возраст. Для заданного 0 < n < 200, рассматриваемого как возраст человека,
  * вернуть строку вида: «21 год», «32 года», «12 лет».
  */
-fun ageDescription(age: Int): String = TODO()
+fun ageDescription(age: Int): String {
+    if (age % 10 == 1 && age % 100 != 11) return "$age год"
+    if (age % 10 in 2..4 && age % 100 !in 12..15) return "$age года"
+    return "$age лет"
+}
 
 /**
  * Простая (2 балла)
@@ -81,7 +87,16 @@ fun timeForHalfWay(
     t1: Double, v1: Double,
     t2: Double, v2: Double,
     t3: Double, v3: Double
-): Double = TODO()
+): Double {
+    val halfS = (v1 * t1 + v2 * t2 + v3 * t3) / 2 // половина пути
+    if (halfS > v1 * t1) {
+        if (halfS > v1 * t1 + v2 * t2)
+            return (halfS - v1 * t1 - v2 * t2) / v3 + t1 + t2 // половина пути - в третей части
+        return (halfS - v1 * t1) / v2 + t1 // половина пути - во второй части
+    }
+    return halfS / v1 // половина пути - в первой части
+
+}
 
 /**
  * Простая (2 балла)
@@ -96,7 +111,16 @@ fun whichRookThreatens(
     kingX: Int, kingY: Int,
     rookX1: Int, rookY1: Int,
     rookX2: Int, rookY2: Int
-): Int = TODO()
+): Int {
+    return when {
+        kingX == rookX1 && kingY == rookY2 -> 3
+        kingX == rookX2 && kingY == rookY1 -> 3
+        kingX == rookX1 || kingY == rookY1 -> 1
+        kingX == rookX2 || kingY == rookY2 -> 2
+        else -> 0
+    }
+
+}
 
 /**
  * Простая (2 балла)
@@ -122,7 +146,19 @@ fun rookOrBishopThreatens(
  * прямоугольным (вернуть 1) или тупоугольным (вернуть 2).
  * Если такой треугольник не существует, вернуть -1.
  */
-fun triangleKind(a: Double, b: Double, c: Double): Int = TODO()
+fun triangleKind(a: Double, b: Double, c: Double): Int {
+    val maxSide = max(a, max(b, c)) // бОльшая сторона
+    val side1 = min(a, min(b, c))
+    val side2 = a + b + c - maxSide - side1
+    val cosA =
+        (sqr(side1) + sqr(side2) - sqr(maxSide)) / (1 * side1 * side2) // ищем косинус большего угла по теореме косинусов
+
+    if (cosA > 0 && cosA <= 1) return 0
+    if (cosA == 0.0) return 1
+    if (cosA < 0 && cosA >= -1) return 2
+    return -1
+
+}
 
 /**
  * Средняя (3 балла)
@@ -132,4 +168,12 @@ fun triangleKind(a: Double, b: Double, c: Double): Int = TODO()
  * Найти длину пересечения отрезков AB и CD.
  * Если пересечения нет, вернуть -1.
  */
-fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int = TODO()
+fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
+    val s1d2 = min(b, d) // вторая точка левого отрезка (segment1dot2)
+    val s2d1 = max(a, c)
+    val s2d2 = max(b, d)
+
+    if (s2d2 > s1d2 && s2d1 > s1d2) return -1 // отрезки не пересекаются
+    if (s1d2 in s2d1 until s2d2) return s1d2 - s2d1 // отрезки пересекаются
+    return s2d2 - s2d1 // один отрезок в другом
+}
