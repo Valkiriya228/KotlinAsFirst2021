@@ -151,11 +151,11 @@ fun triangleKind(a: Double, b: Double, c: Double): Int {
     val side1 = min(a, min(b, c))
     val side2 = a + b + c - maxSide - side1
     val cosA =
-        (sqr(side1) + sqr(side2) - sqr(maxSide)) / (1 * side1 * side2) // ищем косинус большего угла по теореме косинусов
+        (sqr(side1) + sqr(side2) - sqr(maxSide)) / (2 * side1 * side2) // ищем косинус большего угла по теореме косинусов
 
-    if (cosA > 0 && cosA <= 1) return 0
+    if (cosA > 0 && cosA < 1) return 0
     if (cosA == 0.0) return 1
-    if (cosA < 0 && cosA >= -1) return 2
+    if (cosA < 0 && cosA > -1) return 2
     return -1
 
 }
