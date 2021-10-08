@@ -2,6 +2,7 @@
 
 package lesson3.task1
 
+import java.lang.Math.abs
 import kotlin.math.sqrt
 
 // Урок 3: циклы
@@ -73,7 +74,7 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  * Использовать операции со строками в этой задаче запрещается.
  */
 fun digitNumber(n: Int): Int {
-    var num = n
+    var num = kotlin.math.abs(n)
     var c = 1
     while (num > 9) {
         c += 1
