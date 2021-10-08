@@ -72,7 +72,15 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun digitNumber(n: Int): Int = TODO()
+fun digitNumber(n: Int): Int {
+    var num = n
+    var c = 1
+    while (num > 9) {
+        c += 1
+        num /= 10
+    }
+    return c
+}
 
 /**
  * Простая (2 балла)
@@ -80,7 +88,17 @@ fun digitNumber(n: Int): Int = TODO()
  * Найти число Фибоначчи из ряда 1, 1, 2, 3, 5, 8, 13, 21, ... с номером n.
  * Ряд Фибоначчи определён следующим образом: fib(1) = 1, fib(2) = 1, fib(n+2) = fib(n) + fib(n+1)
  */
-fun fib(n: Int): Int = TODO()
+fun fib(n: Int): Int {
+    var fib1 = 1
+    var fib2 = 1
+    var fibsum = 2
+    for (i in 1..n - 2) {
+        fibsum = fib1 + fib2
+        fib1 = fib2
+        fib2 = fibsum
+    }
+    return fib2
+}
 
 /**
  * Простая (2 балла)
@@ -192,7 +210,20 @@ fun cos(x: Double, eps: Double): Double = TODO()
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun squareSequenceDigit(n: Int): Int = TODO()
+fun squareSequenceDigit(n: Int): Int {
+    var quant = 0
+    var squar = 0
+    for (i in 1..n) {
+        squar = i*i
+        quant += digitNumber(squar)
+        if (quant >= n) break
+    }
+    val c = digitNumber(squar) - (quant - n)
+    for (i in 0..digitNumber(squar) - c - 1) {
+        squar /= 10
+    }
+    return(squar % 10)
+}
 
 /**
  * Сложная (5 баллов)
@@ -203,4 +234,18 @@ fun squareSequenceDigit(n: Int): Int = TODO()
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun fibSequenceDigit(n: Int): Int = TODO()
+fun fibSequenceDigit(n: Int): Int {
+
+    var quant = 0
+    var fibn = 0
+    for (i in 1..n) {
+        fibn = fib(i)
+        quant += digitNumber(fibn)
+        if (quant >= n) break
+    }
+    val c = digitNumber(fibn) - (quant - n)
+    for (i in 0..digitNumber(fibn) - c - 1) {
+        fibn /= 10
+    }
+    return(fibn % 10)
+}
