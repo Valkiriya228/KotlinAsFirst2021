@@ -74,7 +74,7 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  * Использовать операции со строками в этой задаче запрещается.
  */
 fun digitNumber(n: Int): Int {
-    var num = kotlin.math.abs(n)
+    var num = abs(n)
     var c = 1
     while (num > 9) {
         c += 1
@@ -215,15 +215,15 @@ fun squareSequenceDigit(n: Int): Int {
     var quant = 0
     var squar = 0
     for (i in 1..n) {
-        squar = i*i
-        quant += digitNumber(squar)
-        if (quant >= n) break
+        if (quant < n) {
+            squar = i * i
+            quant += digitNumber(squar)
+        }
     }
-    val c = digitNumber(squar) - (quant - n)
-    for (i in 0..digitNumber(squar) - c - 1) {
+    for (i in 0 until quant - n) {
         squar /= 10
     }
-    return(squar % 10)
+    return squar % 10
 }
 
 /**
@@ -236,17 +236,16 @@ fun squareSequenceDigit(n: Int): Int {
  * Использовать операции со строками в этой задаче запрещается.
  */
 fun fibSequenceDigit(n: Int): Int {
-
     var quant = 0
     var fibn = 0
     for (i in 1..n) {
-        fibn = fib(i)
-        quant += digitNumber(fibn)
-        if (quant >= n) break
+        if (quant < n) {
+            fibn = fib(i)
+            quant += digitNumber(fibn)
+        }
     }
-    val c = digitNumber(fibn) - (quant - n)
-    for (i in 0..digitNumber(fibn) - c - 1) {
+    for (i in 0 until quant - n) {
         fibn /= 10
     }
-    return(fibn % 10)
+    return fibn % 10
 }
