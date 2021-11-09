@@ -1,14 +1,15 @@
 @file:Suppress("UNUSED_PARAMETER", "ConvertCallChainIntoSequence")
 
 package lesson4.task1
-
 import lesson1.task1.discriminant
+import java.io.File.separator
 import kotlin.math.sqrt
 
 // Урок 4: списки
 // Максимальное количество баллов = 12
 // Рекомендуемое количество баллов = 8
 // Вместе с предыдущими уроками = 24/33
+
 
 /**
  * Пример
@@ -257,5 +258,38 @@ fun roman(n: Int): String {
  * Например, 375 = "триста семьдесят пять",
  * 23964 = "двадцать три тысячи девятьсот шестьдесят четыре"
  */
-fun russian(n: Int): String = TODO()
+fun russian(n: Int): String {
+    var res = mutableListOf<String>()
+    val ones = listOf<String>("", "один", "два", "три", "четыре", "пять", "шесть", "семь", "восемь", "девять")
+    val hones = listOf<String>("", "одна ", "две ", "три ", "четыре ", "пять ", "шесть ", "семь ", "восемь ", "девять ")
+    val tens = listOf<String>("", "", "двадцать", "тридцать", "сорок", "пятьдесят", "шестьдесят", "семьдесят", "восемьдесят", "девяносто")
+    val hunds = listOf<String>("", "сто", "двести", "триста", "четыреста", "пятьсот", "шестьсот", "семьсот", "восемьсот", "девятьсот")
+    val teens = listOf<String>("", "одиннадцать", "двенадцать", "тринадцать", "четырнадцать", "пятнадцать", "шестнадцать", "семнадцать", "восемнадцать", "девятнадцать")
+
+    var o = ones[n % 10]
+    var t = ""
+    if (n / 10 % 10 == 1) {
+        t = teens[n % 10]
+        o = ""
+    } else t = tens[n / 10 % 10]
+    val h = hunds[n / 100 % 10]
+
+    var to = if (n / 1000 % 10 == 0 && n / 10000 % 10 == 0 && n / 100000 % 10 == 0) ""
+    else if (n / 1000 % 10 == 1) "одна тысяча"
+    else if (n / 1000 % 10 == 2 || n / 1000 % 10 == 3 || n / 1000 % 10 == 4) hones[n / 1000 % 10] + "тысячи"
+    else ones[n / 1000 % 10] + "тысяч"
+
+    var tt = ""
+    if (n / 10000 % 10 == 1) {
+        to = ""
+        tt = teens[n / 1000 % 10] + " тысяч"
+    } else tt = tens[n / 10000 % 10]
+
+    val th = hunds[n / 100000 % 10]
+
+    res.addAll(listOf(th, tt, to, h, t, o))
+    res.removeAll(listOf(""))
+
+    return res.joinToString(" ")
+}
 
