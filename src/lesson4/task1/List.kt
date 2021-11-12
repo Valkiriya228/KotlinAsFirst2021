@@ -1,6 +1,7 @@
 @file:Suppress("UNUSED_PARAMETER", "ConvertCallChainIntoSequence")
 
 package lesson4.task1
+
 import lesson1.task1.discriminant
 import java.io.File.separator
 import kotlin.math.sqrt
@@ -261,10 +262,11 @@ fun roman(n: Int): String {
 fun russian(n: Int): String {
     var res = mutableListOf<String>()
     val ones = listOf<String>("", "один", "два", "три", "четыре", "пять", "шесть", "семь", "восемь", "девять")
-    val hones = listOf<String>("", "одна ", "две ", "три ", "четыре ", "пять ", "шесть ", "семь ", "восемь ", "девять ")
+    val hones = listOf<String>("", "одна", "две", "три", "четыре", "пять", "шесть", "семь", "восемь", "девять")
     val tens = listOf<String>("", "", "двадцать", "тридцать", "сорок", "пятьдесят", "шестьдесят", "семьдесят", "восемьдесят", "девяносто")
     val hunds = listOf<String>("", "сто", "двести", "триста", "четыреста", "пятьсот", "шестьсот", "семьсот", "восемьсот", "девятьсот")
-    val teens = listOf<String>("", "одиннадцать", "двенадцать", "тринадцать", "четырнадцать", "пятнадцать", "шестнадцать", "семнадцать", "восемнадцать", "девятнадцать")
+    val teens = listOf<String>("", "одиннадцать", "двенадцать", "тринадцать", "четырнадцать", "пятнадцать", "шестнадцать", "семнадцать", "восемнадцать", "девятнадцать"
+    )
 
     var o = ones[n % 10]
     var t = ""
@@ -274,20 +276,31 @@ fun russian(n: Int): String {
     } else t = tens[n / 10 % 10]
     val h = hunds[n / 100 % 10]
 
-    var to = if (n / 1000 % 10 == 0 && n / 10000 % 10 == 0 && n / 100000 % 10 == 0) ""
-    else if (n / 1000 % 10 == 1) "одна тысяча"
-    else if (n / 1000 % 10 == 2 || n / 1000 % 10 == 3 || n / 1000 % 10 == 4) hones[n / 1000 % 10] + "тысячи"
-    else ones[n / 1000 % 10] + "тысяч"
+    var thousand = ""
+    var to = ""
+    if (n / 1000 % 10 == 0 && n / 10000 % 10 == 0 && n / 100000 % 10 == 0) {
+        to = ""
+    } else if (n / 1000 % 10 == 1) {
+        to = "одна"
+        thousand = "тысяча"
+    } else if (n / 1000 % 10 == 2 || n / 1000 % 10 == 3 || n / 1000 % 10 == 4) {
+        to = hones[n / 1000 % 10]
+        thousand = "тысячи"
+    } else {
+        to = ones[n / 1000 % 10]
+        thousand = "тысяч"
+    }
 
     var tt = ""
     if (n / 10000 % 10 == 1) {
         to = ""
-        tt = teens[n / 1000 % 10] + " тысяч"
+        tt = teens[n / 1000 % 10]
+        thousand = "тысяч"
     } else tt = tens[n / 10000 % 10]
 
     val th = hunds[n / 100000 % 10]
 
-    res.addAll(listOf(th, tt, to, h, t, o))
+    res.addAll(listOf(th, tt, to, thousand, h, t, o))
     res.removeAll(listOf(""))
 
     return res.joinToString(" ")
