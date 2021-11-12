@@ -306,6 +306,3 @@ fun russian(n: Int): String {
     return res.joinToString(" ")
 }
 
-fun main() {
-    print(russian(611610))
-}
