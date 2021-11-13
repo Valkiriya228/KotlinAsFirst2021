@@ -2,6 +2,11 @@
 
 package lesson6.task1
 
+import java.lang.IllegalArgumentException
+import java.lang.IndexOutOfBoundsException
+import java.lang.NumberFormatException
+import kotlin.math.max
+
 // Урок 6: разбор строк, исключения
 // Максимальное количество баллов = 13
 // Рекомендуемое количество баллов = 11
@@ -114,7 +119,18 @@ fun flattenPhoneNumber(phone: String): String = TODO()
  * Прочитать строку и вернуть максимальное присутствующее в ней число (717 в примере).
  * При нарушении формата входной строки или при отсутствии в ней чисел, вернуть -1.
  */
-fun bestLongJump(jumps: String): Int = TODO()
+fun bestLongJump(jumps: String): Int {
+    var result = -1
+    val results = jumps.split(" ")
+    for (i in results) {
+        try {
+            result = max(result, i.toInt())
+        } catch (e: NumberFormatException) {
+            if (i != "%" && i != "-") return -1
+        }
+    }
+    return result
+}
 
 /**
  * Сложная (6 баллов)
@@ -149,7 +165,19 @@ fun plusMinus(expression: String): Int = TODO()
  * Вернуть индекс начала первого повторяющегося слова, или -1, если повторов нет.
  * Пример: "Он пошёл в в школу" => результат 9 (индекс первого 'в')
  */
-fun firstDuplicateIndex(str: String): Int = TODO()
+fun firstDuplicateIndex(str: String): Int {
+    val words = str.split(" ")
+    var currWordIndex = -1
+    var prevWord = ""
+    var prevWordIndex = -1
+    for (word in words) {
+        currWordIndex += prevWord.length + 1
+        if (word.equals(prevWord, ignoreCase = true)) return prevWordIndex
+        prevWordIndex = currWordIndex
+        prevWord = word
+    }
+    return -1
+}
 
 /**
  * Сложная (6 баллов)
@@ -162,7 +190,28 @@ fun firstDuplicateIndex(str: String): Int = TODO()
  * или пустую строку при нарушении формата строки.
  * Все цены должны быть больше нуля либо равны нулю.
  */
-fun mostExpensive(description: String): String = TODO()
+fun mostExpensive(description: String): String {
+    var result = ""
+    val list = description.split("; ")
+    val mapOfFoods = mutableMapOf<String, Double>()
+    var maxCost = 0.0
+    try {
+        for (i in list) {
+            mapOfFoods[i.split(" ")[0]] = i.split(" ")[1].toDouble()
+        }
+    } catch (e: IllegalArgumentException) {
+        return ""
+    } catch (e: IndexOutOfBoundsException) {
+        return ""
+    }
+    for ((key, value) in mapOfFoods) {
+        if (value > maxCost) {
+            maxCost = value
+            result = key
+        }
+    }
+    return result
+}
 
 /**
  * Сложная (6 баллов)

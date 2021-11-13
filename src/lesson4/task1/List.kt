@@ -249,7 +249,6 @@ fun roman(n: Int): String {
     val hunds = listOf<String>("", "C", "CC", "CCC", "CD", "D", "DC", "DCC", "DCCC", "CM")
     val thous = listOf<String>("", "M", "MM", "MMM")
     return thous[n / 1000 % 10] + hunds[n / 100 % 10] + tens[n / 10 % 10] + ones[n % 10]
-
 }
 
 /**
@@ -260,7 +259,7 @@ fun roman(n: Int): String {
  * 23964 = "двадцать три тысячи девятьсот шестьдесят четыре"
  */
 fun russian(n: Int): String {
-    var res = mutableListOf<String>()
+    val res = mutableListOf<String>()
     val ones = listOf<String>("", "один", "два", "три", "четыре", "пять", "шесть", "семь", "восемь", "девять")
     val hones = listOf<String>("", "одна", "две", "три", "четыре", "пять", "шесть", "семь", "восемь", "девять")
     val tens = listOf<String>("", "", "двадцать", "тридцать", "сорок", "пятьдесят", "шестьдесят", "семьдесят", "восемьдесят", "девяносто")
@@ -269,7 +268,7 @@ fun russian(n: Int): String {
     )
 
     var o = ones[n % 10]
-    var t = ""
+    val t: String
     if (n / 10 % 10 == 1) {
         t = teens[n % 10]
         o = ""
@@ -277,7 +276,7 @@ fun russian(n: Int): String {
     val h = hunds[n / 100 % 10]
 
     var thousand = ""
-    var to = ""
+    var to: String
     if (n / 1000 % 10 == 0 && n / 10000 % 10 == 0 && n / 100000 % 10 == 0) {
         to = ""
     } else if (n / 1000 % 10 == 1) {
@@ -291,7 +290,7 @@ fun russian(n: Int): String {
         thousand = "тысяч"
     }
 
-    var tt = ""
+    val tt: String
     if (n / 10000 % 10 == 1) {
         to = ""
         tt = teens[n / 1000 % 10]
