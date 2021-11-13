@@ -205,7 +205,7 @@ fun mostExpensive(description: String): String {
         return ""
     }
     for ((key, value) in mapOfFoods) {
-        if (value > maxCost) {
+        if (value >= maxCost) {
             maxCost = value
             result = key
         }
