@@ -193,15 +193,17 @@ fun firstDuplicateIndex(str: String): Int {
 fun mostExpensive(description: String): String {
     var result = ""
     val list = description.split("; ")
+    print(list)
     val mapOfFoods = mutableMapOf<String, Double>()
     var maxCost = 0.0
     try {
         for (i in list) {
-            mapOfFoods[i.split(" ")[0]] = i.split(" ")[1].toDouble()
+            if (i != ""){
+                val food = i.split(" ")
+                mapOfFoods[food[0]] = food[1].toDouble()
+            }
         }
     } catch (e: IllegalArgumentException) {
-        return ""
-    } catch (e: IndexOutOfBoundsException) {
         return ""
     }
     for ((key, value) in mapOfFoods) {

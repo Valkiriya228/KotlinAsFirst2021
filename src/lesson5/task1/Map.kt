@@ -284,7 +284,7 @@ fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> {
     }
     for (i in list.indices) {
         val diff = number - list[i]
-        if (nums[diff] != null && nums[diff] != i) return i to nums[diff]!!
+        if (nums[diff] != null && nums[diff] != i) return (i to nums[diff]) as Pair<Int, Int>
     }
     return -1 to -1
 }

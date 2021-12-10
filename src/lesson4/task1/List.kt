@@ -243,12 +243,12 @@ fun decimalFromString(str: String, base: Int): Int = TODO()
  * 90 = XC, 100 = C, 400 = CD, 500 = D, 900 = CM, 1000 = M.
  * Например: 23 = XXIII, 44 = XLIV, 100 = C
  */
+val ones1 = listOf("", "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX")
+val tens1 = listOf("", "X", "XX", "XXX", "XL", "L", "LX", "LXX", "LXXX", "XC")
+val hunds1 = listOf("", "C", "CC", "CCC", "CD", "D", "DC", "DCC", "DCCC", "CM")
+val thous = listOf("", "M", "MM", "MMM")
 fun roman(n: Int): String {
-    val ones = listOf<String>("", "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX")
-    val tens = listOf<String>("", "X", "XX", "XXX", "XL", "L", "LX", "LXX", "LXXX", "XC")
-    val hunds = listOf<String>("", "C", "CC", "CCC", "CD", "D", "DC", "DCC", "DCCC", "CM")
-    val thous = listOf<String>("", "M", "MM", "MMM")
-    return thous[n / 1000 % 10] + hunds[n / 100 % 10] + tens[n / 10 % 10] + ones[n % 10]
+    return thous[n / 1000 % 10] + hunds1[n / 100 % 10] + tens1[n / 10 % 10] + ones1[n % 10]
 }
 
 /**
@@ -258,36 +258,29 @@ fun roman(n: Int): String {
  * Например, 375 = "триста семьдесят пять",
  * 23964 = "двадцать три тысячи девятьсот шестьдесят четыре"
  */
+val ones = listOf("", "один", "два", "три", "четыре", "пять", "шесть", "семь", "восемь", "девять")
+val hones = listOf("", "одна", "две", "три", "четыре", "пять", "шесть", "семь", "восемь", "девять")
+val tens = listOf("", "", "двадцать", "тридцать", "сорок", "пятьдесят", "шестьдесят", "семьдесят", "восемьдесят", "девяносто")
+val hunds = listOf("", "сто", "двести", "триста", "четыреста", "пятьсот", "шестьсот", "семьсот", "восемьсот", "девятьсот")
+val teens = listOf("десять", "одиннадцать", "двенадцать", "тринадцать", "четырнадцать", "пятнадцать", "шестнадцать", "семнадцать", "восемнадцать", "девятнадцать")
 fun russian(n: Int): String {
     val res = mutableListOf<String>()
-    val ones = listOf<String>("", "один", "два", "три", "четыре", "пять", "шесть", "семь", "восемь", "девять")
-    val hones = listOf<String>("", "одна", "две", "три", "четыре", "пять", "шесть", "семь", "восемь", "девять")
-    val tens = listOf<String>("", "", "двадцать", "тридцать", "сорок", "пятьдесят", "шестьдесят", "семьдесят", "восемьдесят", "девяносто")
-    val hunds = listOf<String>("", "сто", "двести", "триста", "четыреста", "пятьсот", "шестьсот", "семьсот", "восемьсот", "девятьсот")
-    val teens = listOf<String>("десять", "одиннадцать", "двенадцать", "тринадцать", "четырнадцать", "пятнадцать", "шестнадцать", "семнадцать", "восемнадцать", "девятнадцать"
-    )
 
-    var o = ones[n % 10]
-    val t: String
-    if (n / 10 % 10 == 1) {
-        t = teens[n % 10]
-        o = ""
-    } else t = tens[n / 10 % 10]
+    val (t, o) = if (n / 10 % 10 == 1) {
+        teens[n % 10] to ""
+    } else {
+        tens[n / 10 % 10] to ones[n % 10]
+    }
     val h = hunds[n / 100 % 10]
 
-    var thousand = ""
-    var to: String
-    if (n / 1000 % 10 == 0 && n / 10000 % 10 == 0 && n / 100000 % 10 == 0) {
-        to = ""
+    var (to, thousand) = if (n / 1000 % 10 == 0 && n / 10000 % 10 == 0 && n / 100000 % 10 == 0) {
+        "" to ""
     } else if (n / 1000 % 10 == 1) {
-        to = "одна"
-        thousand = "тысяча"
+        "одна" to "тысяча"
     } else if (n / 1000 % 10 == 2 || n / 1000 % 10 == 3 || n / 1000 % 10 == 4) {
-        to = hones[n / 1000 % 10]
-        thousand = "тысячи"
+        hones[n / 1000 % 10] to "тысячи"
     } else {
-        to = ones[n / 1000 % 10]
-        thousand = "тысяч"
+        ones[n / 1000 % 10] to "тысяч"
     }
 
     val tt: String
