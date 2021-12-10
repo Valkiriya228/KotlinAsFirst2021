@@ -77,27 +77,33 @@ fun deleteMarked(inputName: String, outputName: String) {
  */
 fun countSubstrings(inputName: String, substrings: List<String>): Map<String, Int> {
     val result = mutableMapOf<String, Int>()
-    for (element in substrings) {
-        result[element] = 0
+    for (substring in substrings) {
+        result[substring] = 0
     }
     for (substring in substrings) {
-        for (line in File(inputName).readLines()) {
-            var count = 0
-            var pos = 0
-            while (true) {
-                pos = line.indexOf(substring, pos, ignoreCase = true)
-                if (pos != -1) {
-                    count++
-                    pos++
-                } else {
-                    result[substring] = result[substring]!! + count
-                    break
+        if (result[substring] == 0) {
+            for (line in java.io.File(inputName).readLines()) {
+                var count = 0
+                var pos = 0
+                while (true) {
+                    pos = line.indexOf(substring, pos, ignoreCase = true)
+                    if (pos != -1) {
+                        count++
+                        pos++
+                    } else {
+                        result[substring] = result[substring]!! + count
+                        break
+                    }
                 }
             }
         }
+
     }
     print(result)
     return result
+}
+fun main() {
+    countSubstrings("input/substrings_in3.txt", listOf("аб", "аб"))
 }
 
 
