@@ -82,7 +82,7 @@ fun countSubstrings(inputName: String, substrings: List<String>): Map<String, In
     }
     for (substring in substrings) {
         if (result[substring] == 0) {
-            for (line in java.io.File(inputName).readLines()) {
+            for (line in File(inputName).readLines()) {
                 var count = 0
                 var pos = 0
                 while (true) {
@@ -101,9 +101,6 @@ fun countSubstrings(inputName: String, substrings: List<String>): Map<String, In
     }
     print(result)
     return result
-}
-fun main() {
-    countSubstrings("input/substrings_in3.txt", listOf("аб", "аб"))
 }
 
 
