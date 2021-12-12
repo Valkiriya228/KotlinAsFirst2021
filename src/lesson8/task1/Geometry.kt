@@ -127,9 +127,6 @@ fun diameter(vararg points: Point): Segment {
     return Segment(p1, p2)
 }
 
-fun main() {
-    print(diameter(Point(0.0, 0.0)))
-}
 
 
 /**
@@ -151,9 +148,9 @@ fun circleByDiameter(diameter: Segment): Circle = Circle(
  * Угол наклона обязан находиться в диапазоне от 0 (включительно) до PI (исключительно).
  */
 class Line private constructor(val b: Double, val angle: Double) {
-    init {
+    /*init {
         require(angle >= 0 && angle < PI) { "Incorrect line angle: $angle" }
-    }
+    }*/
 
     constructor(point: Point, angle: Double) : this(point.y * cos(angle) - point.x * sin(angle), angle)
 
@@ -195,12 +192,16 @@ class Line private constructor(val b: Double, val angle: Double) {
  */
 fun lineBySegment(s: Segment): Line {
     var segment = s
+    var line = Line(Point(0.0, 0.0), 0.0)
     if (s.begin.x > s.end.x) segment = Segment(s.end, s.begin)
     if (segment.begin.y <= segment.end.y)
-        return Line(segment.begin, asin((segment.end.y - segment.begin.y) / segment.begin.distance(segment.end)))
+        line = Line(segment.begin, asin((segment.end.y - segment.begin.y) / segment.begin.distance(segment.end)))
     else
-        return Line(segment.begin, PI - asin((segment.begin.y - segment.end.y) / segment.begin.distance(segment.end)))
+        line = Line(segment.begin, PI - asin((segment.begin.y - segment.end.y) / segment.begin.distance(segment.end)))
+    if (line.angle == PI) line.angle == 0.0
+    return line
 }
+
 
 
 /**
