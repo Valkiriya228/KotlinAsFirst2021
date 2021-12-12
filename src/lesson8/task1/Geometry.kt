@@ -194,11 +194,11 @@ fun lineBySegment(s: Segment): Line {
     var segment = s
     var line = Line(Point(0.0, 0.0), 0.0)
     if (s.begin.x > s.end.x) segment = Segment(s.end, s.begin)
-    if (segment.begin.y <= segment.end.y)
-        line = Line(segment.begin, asin((segment.end.y - segment.begin.y) / segment.begin.distance(segment.end)))
+    line = if (segment.begin.y <= segment.end.y)
+        Line(segment.begin, asin((segment.end.y - segment.begin.y) / segment.begin.distance(segment.end)))
     else
-        line = Line(segment.begin, PI - asin((segment.begin.y - segment.end.y) / segment.begin.distance(segment.end)))
-    if (line.angle == PI) line.angle == 0.0
+        Line(segment.begin, asin(PI - (segment.begin.y - segment.end.y) / segment.begin.distance(segment.end)))
+    //if (line.angle == PI) line.angle == 0.0
     return line
 }
 
@@ -210,6 +210,22 @@ fun lineBySegment(s: Segment): Line {
  * Построить прямую по двум точкам
  */
 fun lineByPoints(a: Point, b: Point): Line = lineBySegment(Segment(a, b))
+/*{
+    var p1 = a
+    var p2 = b
+    if (a.x > b.x) {
+        p1 = b
+        p2 = a
+    }
+    return if (p1.y < p2.y) Line(p1, asin(p2.distance(Point(p2.x, p1.y)) / p2.distance(p1)))
+    else Line(p1, asin(PI - p2.distance(Point(p2.x, p1.y)) / p2.distance(p1)))
+}*/
+
+fun main() {
+    val line = lineByPoints(Point(0.0, 0.0), Point(0.0, 2.0))
+    println(line.angle)
+
+}
 
 /**
  * Сложная (5 баллов)
