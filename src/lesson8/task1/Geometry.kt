@@ -148,9 +148,9 @@ fun circleByDiameter(diameter: Segment): Circle = Circle(
  * Угол наклона обязан находиться в диапазоне от 0 (включительно) до PI (исключительно).
  */
 class Line private constructor(val b: Double, val angle: Double) {
-    /*init {
+    init {
         require(angle >= 0 && angle < PI) { "Incorrect line angle: $angle" }
-    }*/
+    }
 
     constructor(point: Point, angle: Double) : this(point.y * cos(angle) - point.x * sin(angle), angle)
 
@@ -191,19 +191,20 @@ class Line private constructor(val b: Double, val angle: Double) {
  * Построить прямую по отрезку
  */
 fun lineBySegment(s: Segment): Line {
+    var line = Line(Point(0.0, 0.0), 0.0)
     var segment = s
     if (s.begin.x > s.end.x) segment = Segment(s.end, s.begin)
-    return if (segment.begin.y < segment.end.y)
+    line = if (segment.begin.y < segment.end.y)
         Line(segment.begin, asin((segment.end.y - segment.begin.y) / segment.begin.distance(segment.end)))
     else if (segment.begin.x == segment.end.x)
         Line(segment.begin, PI / 2)
-    else if (segment.begin.y == segment.end.y)
+    //else if (segment.begin.y - segment.end.y == 0.0)
+    else if (PI - asin((segment.begin.y - segment.end.y) / segment.begin.distance(segment.end)) == PI)
         Line(segment.begin, 0.0)
     else
-        Line(segment.begin, asin(PI - (segment.begin.y - segment.end.y) / segment.begin.distance(segment.end)))
+        Line(segment.begin, PI - asin((segment.begin.y - segment.end.y) / segment.begin.distance(segment.end)))
+    return line
 }
-
-
 
 /**
  * Средняя (3 балла)
