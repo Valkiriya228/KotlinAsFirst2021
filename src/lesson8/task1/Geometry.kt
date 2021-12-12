@@ -111,7 +111,6 @@ data class Segment(var begin: Point, var end: Point) {
  * Если в множестве менее двух точек, бросить IllegalArgumentException
  */
 fun diameter(vararg points: Point): Segment {
-    if (points.size < 2) throw IllegalArgumentException()
     var maxLen = 0.0
     var p1 = Point(0.0, 0.0)
     var p2 = Point(0.0, 0.0)
@@ -124,7 +123,12 @@ fun diameter(vararg points: Point): Segment {
             }
         }
     }
+    if (p1.distance(p2) == 0.0) throw IllegalArgumentException()
     return Segment(p1, p2)
+}
+
+fun main() {
+    print(diameter(Point(0.0, 0.0)))
 }
 
 
