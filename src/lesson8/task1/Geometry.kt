@@ -147,9 +147,9 @@ fun circleByDiameter(diameter: Segment): Circle = Circle(
  * Угол наклона обязан находиться в диапазоне от 0 (включительно) до PI (исключительно).
  */
 class Line private constructor(val b: Double, val angle: Double) {
-    /*init {
+    init {
         require(angle >= 0 && angle < PI) { "Incorrect line angle: $angle" }
-    }*/
+    }
 
     constructor(point: Point, angle: Double) : this(point.y * cos(angle) - point.x * sin(angle), angle)
 
@@ -159,7 +159,18 @@ class Line private constructor(val b: Double, val angle: Double) {
      * Найти точку пересечения с другой линией.
      * Для этого необходимо составить и решить систему из двух уравнений (каждое для своей прямой)
      */
-    fun crossPoint(other: Line): Point = TODO()
+    fun crossPoint(other: Line): Point {
+
+        var x = (other.b / cos(other.angle) - b / cos(angle)) / (sin(angle) / cos(angle) - sin(other.angle) / cos(other.angle))
+        var y = (x * sin(angle) + b) / cos(angle)
+
+        if (angle == 0.0) y = b
+        if (other.angle == 0.0) y = other.b
+        if (angle == PI / 2) x = -b
+        if (other.angle == PI / 2) x = -other.b
+        return Point(x, y)
+
+    }
 
     override fun equals(other: Any?) = other is Line && angle == other.angle && b == other.b
 
@@ -172,6 +183,7 @@ class Line private constructor(val b: Double, val angle: Double) {
     override fun toString() = "Line(${cos(angle)} * y = ${sin(angle)} * x + $b)"
 }
 
+
 /**
  * Средняя (3 балла)
  *
@@ -180,20 +192,12 @@ class Line private constructor(val b: Double, val angle: Double) {
 fun lineBySegment(s: Segment): Line {
     var segment = s
     if (s.begin.x > s.end.x) segment = Segment(s.end, s.begin)
-    if (segment.begin.y <= segment.end.y) {
-        print(asin((segment.end.y - segment.begin.y) / segment.begin.distance(segment.end)))
+    if (segment.begin.y <= segment.end.y)
         return Line(segment.begin, asin((segment.end.y - segment.begin.y) / segment.begin.distance(segment.end)))
-    }
-    else {
-        print(PI - asin((segment.begin.y - segment.end.y) / segment.begin.distance(segment.end)))
+    else
         return Line(segment.begin, PI - asin((segment.begin.y - segment.end.y) / segment.begin.distance(segment.end)))
-    }
 }
-fun main() {
-    var segment = Segment(Point(0.0, 5e-324), Point(0.1345259500629289, 0.0))
-    println(lineBySegment(segment))
 
-}
 
 /**
  * Средняя (3 балла)
@@ -236,7 +240,9 @@ fun findNearestCirclePair(vararg circles: Circle): Pair<Circle, Circle> = TODO()
  * (построить окружность по трём точкам, или
  * построить окружность, описанную вокруг треугольника - эквивалентная задача).
  */
-fun circleByThreePoints(a: Point, b: Point, c: Point): Circle = TODO()
+fun circleByThreePoints(a: Point, b: Point, c: Point): Circle {
+    TODO()
+}
 
 /**
  * Очень сложная (10 баллов)
