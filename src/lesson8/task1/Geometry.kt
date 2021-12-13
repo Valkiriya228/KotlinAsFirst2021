@@ -3,6 +3,7 @@
 package lesson8.task1
 
 import lesson1.task1.sqr
+import java.security.cert.CertPath
 import kotlin.math.*
 
 // Урок 8: простые классы
@@ -245,8 +246,9 @@ fun findNearestCirclePair(vararg circles: Circle): Pair<Circle, Circle> = TODO()
  */
 fun circleByThreePoints(a: Point, b: Point, c: Point): Circle {
     val bisectorab = bisectorByPoints(a, b)
-    val bisectorbc = bisectorByPoints(a, c)
+    val bisectorbc = bisectorByPoints(b, c)
     val o = bisectorab.crossPoint(bisectorbc)
+
     val r = o.distance(a)
     return Circle(o, r)
 }
@@ -269,5 +271,16 @@ fun circleByThreePoints(a: Point, b: Point, c: Point): Circle {
  * три точки данного множества, либо иметь своим диаметром отрезок,
  * соединяющий две самые удалённые точки в данном множестве.
  */
-fun minContainingCircle(vararg points: Point): Circle = TODO()
+fun minContainingCircle(vararg points: Point): Circle {
+    if (points.isEmpty()) throw IllegalArgumentException()
+    if (points.size == 1) return Circle(points[0], 0.0)
+    var maxCircle = circleByDiameter(diameter(*points))
+    val p1 = diameter(*points).begin
+    val p2 = diameter(*points).end
+    for (point in points) {
+        if (point.distance(maxCircle.center) > maxCircle.radius) maxCircle = circleByThreePoints(p1, p2, point)
+    }
+
+    return maxCircle
+}
 
