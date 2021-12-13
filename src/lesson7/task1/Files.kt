@@ -4,6 +4,7 @@ package lesson7.task1
 
 import java.io.File
 import java.lang.IllegalArgumentException
+import java.lang.Integer.max
 
 // Урок 7: работа с файлами
 // Урок интегральный, поэтому его задачи имеют сильно увеличенную стоимость
@@ -157,7 +158,32 @@ fun sibilants(inputName: String, outputName: String) {
  *
  */
 fun centerFile(inputName: String, outputName: String) {
-    TODO()
+    var nmax = 0
+    val writer = File(outputName).bufferedWriter()
+    File(inputName).forEachLine { line ->
+        val str = line.trim().split("\\s".toRegex()).joinToString(" ")
+        nmax = max(nmax, str.length)
+    }
+    File(inputName).forEachLine { line ->
+        var nLine = ""
+        val str = line.trim().split("\\s".toRegex()).joinToString(" ")
+        val n = str.length
+        for (i in 1..(nmax - n) / 2) {
+            nLine += " "
+        }
+        writer.write(nLine + str)
+        writer.newLine()
+    }
+    writer.close()
+
+}
+
+fun main() {
+    val textLine = ""
+    var partsWithTrim = textLine.trim().split("\\s".toRegex()).joinToString(" ")
+    println(partsWithTrim)
+    println(3 / 2)
+    println(centerFile("input/center_in1.txt", "init.txt"))
 }
 
 /**
