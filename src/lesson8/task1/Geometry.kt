@@ -190,7 +190,7 @@ class Line private constructor(val b: Double, val angle: Double) {
  *
  * Построить прямую по отрезку
  */
-fun lineBySegment(s: Segment): Line = Line(s.begin, atan2(abs(s.end.y - s.begin.y), abs(s.end.x - s.begin.x)))
+fun lineBySegment(s: Segment): Line = Line(s.begin, atan2(s.end.y - s.begin.y, s.end.x - s.begin.x))
 
 /**
  * Средняя (3 балла)
