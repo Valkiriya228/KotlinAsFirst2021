@@ -201,12 +201,6 @@ fun lineBySegment(s: Segment): Line {
 }
 
 
-fun main() {
-    val s = Segment(Point(0.8989099035679092, -5e-324), Point(2.220446049250313e-16, 0.0))
-    println(lineBySegment(s))
-    println(atan2(s.end.y - s.begin.y, s.end.x - s.begin.x))
-}
-
 /**
  * Средняя (3 балла)
  *
@@ -251,11 +245,18 @@ fun findNearestCirclePair(vararg circles: Circle): Pair<Circle, Circle> = TODO()
  */
 fun circleByThreePoints(a: Point, b: Point, c: Point): Circle {
     val bisectorab = bisectorByPoints(a, b)
-    val bisectorbc = bisectorByPoints(b, c)
+    val bisectorbc = bisectorByPoints(a, c)
     val o = bisectorab.crossPoint(bisectorbc)
     val r = o.distance(a)
     return Circle(o, r)
 }
+
+/*fun main() {
+    val a = Point()
+    val b = Point()
+    val c = Point()
+    println(circleByThreePoints(a, b, c))
+}*/
 
 /**
  * Очень сложная (10 баллов)
