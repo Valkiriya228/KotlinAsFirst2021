@@ -3,6 +3,7 @@
 package lesson7.task1
 
 import java.io.File
+import java.lang.IllegalArgumentException
 
 // Урок 7: работа с файлами
 // Урок интегральный, поэтому его задачи имеют сильно увеличенную стоимость
@@ -82,7 +83,7 @@ fun countSubstrings(inputName: String, substrings: List<String>): Map<String, In
     }
     for (substring in substrings) {
         if (result[substring] == 0) {
-            for (line in File(inputName).readLines()) {
+            File(inputName).forEachLine { line ->
                 var count = 0
                 var pos = 0
                 while (true) {
@@ -97,9 +98,7 @@ fun countSubstrings(inputName: String, substrings: List<String>): Map<String, In
                 }
             }
         }
-
     }
-    print(result)
     return result
 }
 
@@ -117,20 +116,24 @@ fun countSubstrings(inputName: String, substrings: List<String>): Map<String, In
  * Исключения (жюри, брошюра, парашют) в рамках данного задания обрабатывать не нужно
  *
  */
-val lettersb = listOf('ж', 'ч', 'ш', 'щ', 'Ж', 'Ч', 'Ш', 'Щ')
+const val lettersb = "жчшщЖЧШЩ"
 val lettersa = mapOf<Char, Char>('Ы' to 'И', 'Я' to 'А', 'Ю' to 'У', 'ы' to 'и', 'я' to 'а', 'ю' to 'у')
 fun sibilants(inputName: String, outputName: String) {
     val writer = File(outputName).bufferedWriter()
-    for (line in File(inputName).readLines()) {
-        var newLine = line
-        var b = '1'
-        for (a in line) {
-            if (b in lettersb && a in lettersa.keys)
-                newLine = newLine.replace(b.toString() + a, b.toString() + lettersa[a])
-            b = a
+    try {
+        File(inputName).forEachLine { line ->
+            var newLine = line
+            var b = '1'
+            for (a in line) {
+                if (b in lettersb && a in lettersa.keys)
+                    newLine = newLine.replace(b.toString() + a, b.toString() + lettersa[a])
+                b = a
+            }
+            writer.write(newLine)
+            writer.newLine()
         }
-        writer.write(newLine)
-        writer.newLine()
+    } catch (e: IllegalArgumentException) {
+        writer.close()
     }
     writer.close()
 }
