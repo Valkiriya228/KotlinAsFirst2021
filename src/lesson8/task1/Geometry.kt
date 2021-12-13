@@ -192,12 +192,14 @@ class Line private constructor(val b: Double, val angle: Double) {
  */
 fun lineBySegment(s: Segment): Line =
     if (atan2(s.end.y - s.begin.y, s.end.x - s.begin.x) == PI) Line(s.begin, 0.0)
-    else Line(s.begin, atan2(s.end.y - s.begin.y, s.end.x - s.begin.x))
+    else if (s.begin.y < s.end.y) Line(s.begin, atan2(s.end.y - s.begin.y, s.end.x - s.begin.x))
+    else Line(s.begin, atan2(s.begin.y - s.end.y, s.begin.x - s.end.x))
 
 
 fun main() {
-    //print(lineByPoints(Point(1.0, 0.0), Point(0.0, 0.0)))
-    print(atan2(0.0, -1.0))
+    val s = Segment(Point(0.22573032558122552, 0.0), Point(0.20908946576845888, -632.0))
+    println(lineBySegment(s))
+    println(atan2(s.end.y - s.begin.y, s.end.x - s.begin.x))
 }
 
 /**
