@@ -178,14 +178,6 @@ fun centerFile(inputName: String, outputName: String) {
 
 }
 
-fun main() {
-    val textLine = ""
-    var partsWithTrim = textLine.trim().split("\\s".toRegex()).joinToString(" ")
-    println(partsWithTrim)
-    println(3 / 2)
-    println(centerFile("input/center_in1.txt", "init.txt"))
-}
-
 /**
  * Сложная (20 баллов)
  *
